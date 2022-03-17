@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/gotrx/mysql/schema"
+	"github.com/patrickmn/go-cache"
 )
 
 var EXPIRE_TIME = 15 * time.Minute
