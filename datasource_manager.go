@@ -193,7 +193,7 @@ func (resourceManager DataSourceManager) doRegisterResource(serverAddress string
 	}
 	message := protocal.RegisterRMRequest{
 		AbstractIdentifyRequest: protocal.AbstractIdentifyRequest{
-			Version:                 config.GetClientConfig().SeataVersion,
+			Version:                 config.GetClientConfig().StarfishVersion,
 			ApplicationID:           config.GetClientConfig().ApplicationID,
 			TransactionServiceGroup: config.GetClientConfig().TransactionServiceGroup,
 		},
