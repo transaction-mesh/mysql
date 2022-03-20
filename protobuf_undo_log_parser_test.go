@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gotrx/mysql/schema"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/gotrx/mysql/schema"
 )
 
 func getBranchUndoLog() *branchUndoLog {
