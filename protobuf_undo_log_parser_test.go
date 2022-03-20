@@ -2,10 +2,10 @@ package mysql
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
 
 	"github.com/gotrx/mysql/schema"
+	"github.com/stretchr/testify/assert"
 )
 
 func getBranchUndoLog() *branchUndoLog {
