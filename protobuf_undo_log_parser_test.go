@@ -3,9 +3,13 @@ package mysql
 import (
 	"fmt"
 	"testing"
+)
 
+import (
 	"github.com/stretchr/testify/assert"
+)
 
+import (
 	"github.com/gotrx/mysql/schema"
 )
 
