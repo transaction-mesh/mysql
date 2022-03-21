@@ -95,6 +95,7 @@ func UpdateBuildUndoSql(undoLog sqlUndoLog) string {
 }
 
 type MysqlUndoExecutor struct {
+	BaseExecutor
 	sqlUndoLog sqlUndoLog
 }
 
@@ -221,11 +222,11 @@ func (executor MysqlUndoExecutor) queryCurrentRecords(conn *mysqlConn) (*schema.
 		}
 	}
 
-	inCondition := appendInParam(len(pkValues))
+	inCondition := AppendInParam(len(pkValues))
 	selectSql := fmt.Sprintf(SelectSqlTemplate, b.String(), tableMeta.TableName, pkName, inCondition)
 	rows, err := conn.prepareQuery(selectSql, pkValues)
 	if err != nil {
 		return nil, err
 	}
-	return buildRecords(tableMeta, rows), nil
+	return executor.buildRecords(tableMeta, rows), nil
 }

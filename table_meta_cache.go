@@ -80,6 +80,10 @@ func (cache *TableMetaCache) GetCacheKey(tableName string) string {
 	return fmt.Sprintf("%s.%s", cache.dbName, escape(tableName, "`"))
 }
 
+func (cache *TableMetaCache) addCache(key string, x interface{}) {
+	cache.tableMetaCache.Add(key, x, 10*EXPIRE_TIME)
+}
+
 func (cache *TableMetaCache) FetchSchema(conn *mysqlConn, tableName string) (schema.TableMeta, error) {
 	tm := schema.TableMeta{TableName: tableName,
 		AllColumns: make(map[string]schema.ColumnMeta),

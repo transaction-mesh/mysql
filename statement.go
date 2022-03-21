@@ -66,42 +66,43 @@ func (stmt *mysqlStmt) Exec(args []driver.Value) (driver.Result, error) {
 
 	if stmt.mc.ctx != nil {
 		parser := parser.New()
-		act, _ := parser.ParseOneStmt(stmt.sql, "", "")
-		deleteStmt, isDelete := act.(*ast.DeleteStmt)
-		if isDelete {
-			executor := &deleteExecutor{
-				mc:          stmt.mc,
-				originalSQL: stmt.sql,
-				stmt:        deleteStmt,
-				args:        args,
-			}
-			stmt.mc.writeCommandPacketUint32(comStmtClose, stmt.id)
-			return executor.Execute()
+		// parse multi
+		acts, warns, err := parser.Parse(stmt.sql, "", "")
+		if len(warns) > 0 {
+			return nil, warns[0]
+		}
+		if err != nil {
+			return nil, err
 		}
 
-		insertStmt, isInsert := act.(*ast.InsertStmt)
-		if isInsert {
-			executor := &insertExecutor{
-				mc:          stmt.mc,
-				originalSQL: stmt.sql,
-				stmt:        insertStmt,
-				args:        args,
-			}
-			stmt.mc.writeCommandPacketUint32(comStmtClose, stmt.id)
-			return executor.Execute()
+		baseExec := BaseExecutor{
+			stmt.mc, stmt.sql, args,
 		}
+		var iExec IExecutor
+		if len(acts) == 1 {
+			act := acts[0]
+			// StmtNode -> DMLNode
+			dml := act.(ast.DMLNode)
 
-		updateStmt, isUpdate := act.(*ast.UpdateStmt)
-		if isUpdate {
-			executor := &updateExecutor{
-				mc:          stmt.mc,
-				originalSQL: stmt.sql,
-				stmt:        updateStmt,
-				args:        args,
+			switch stmtTmp := dml.(type) {
+			case *ast.DeleteStmt:
+				iExec = &deleteExecutor{baseExec, stmtTmp}
+			case *ast.UpdateStmt:
+				iExec = &updateExecutor{baseExec, stmtTmp}
+			case *ast.InsertStmt:
+				iExec = &insertExecutor{baseExec, stmtTmp}
 			}
-			stmt.mc.writeCommandPacketUint32(comStmtClose, stmt.id)
-			return executor.Execute()
+		} else {
+			var stmts []*ast.DMLNode
+
+			for _, act := range acts {
+				node := act.(ast.DMLNode)
+				stmts = append(stmts, &node)
+			}
+			iExec = &multiExecutor{baseExec, stmts, nil}
 		}
+		stmt.mc.writeCommandPacketUint32(comStmtClose, stmt.id)
+		return iExec.Execute()
 	}
 
 	// Send command
@@ -155,11 +156,11 @@ func (stmt *mysqlStmt) Query(args []driver.Value) (driver.Rows, error) {
 		selectForUpdateStmt, ok := act.(*ast.SelectStmt)
 		if ok && selectForUpdateStmt.LockTp == ast.SelectLockForUpdate {
 			executor := &selectForUpdateExecutor{
-				mc:          stmt.mc,
-				originalSQL: stmt.sql,
-				stmt:        selectForUpdateStmt,
-				args:        args,
+				stmt: selectForUpdateStmt,
 			}
+			executor.originalSQL = stmt.sql
+			executor.mc = stmt.mc
+			executor.args = args
 			return executor.Execute(config.GetClientConfig().ATConfig.LockRetryInterval,
 				config.GetClientConfig().ATConfig.LockRetryTimes)
 		}
