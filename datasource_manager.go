@@ -4,13 +4,16 @@ import (
 	"context"
 	"fmt"
 	"strings"
+)
 
-	"github.com/gotrx/starfish/pkg/base/meta"
-	"github.com/gotrx/starfish/pkg/base/protocal"
-	"github.com/gotrx/starfish/pkg/client/config"
-	"github.com/gotrx/starfish/pkg/client/rpc_client"
-	"github.com/gotrx/starfish/pkg/util/log"
+import (
 	"github.com/pkg/errors"
+
+	"github.com/transaction-mesh/starfish/pkg/base/meta"
+	"github.com/transaction-mesh/starfish/pkg/base/protocal"
+	"github.com/transaction-mesh/starfish/pkg/client/config"
+	"github.com/transaction-mesh/starfish/pkg/client/rpc_client"
+	"github.com/transaction-mesh/starfish/pkg/util/log"
 )
 
 var (

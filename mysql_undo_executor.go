@@ -5,12 +5,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+)
 
+import (
 	"github.com/google/go-cmp/cmp"
-	"github.com/gotrx/starfish/pkg/util/log"
+
 	"github.com/pkg/errors"
 
-	"github.com/gotrx/mysql/schema"
+	"github.com/transaction-mesh/starfish/pkg/util/log"
+)
+
+import (
+	"github.com/transaction-mesh/mysql/schema"
 )
 
 const (

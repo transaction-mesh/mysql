@@ -6,14 +6,19 @@ import (
 	"fmt"
 	"strings"
 	"time"
+)
 
-	"github.com/gotrx/starfish/pkg/base/meta"
-	"github.com/gotrx/starfish/pkg/util/mysql"
-	sql2 "github.com/gotrx/starfish/pkg/util/sql"
+import (
 	"github.com/pingcap/parser/ast"
 	"github.com/pingcap/parser/format"
 
-	"github.com/gotrx/mysql/schema"
+	"github.com/transaction-mesh/starfish/pkg/base/meta"
+	"github.com/transaction-mesh/starfish/pkg/util/mysql"
+	sql2 "github.com/transaction-mesh/starfish/pkg/util/sql"
+)
+
+import (
+	"github.com/transaction-mesh/mysql/schema"
 )
 
 type insertExecutor struct {

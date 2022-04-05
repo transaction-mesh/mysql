@@ -6,11 +6,14 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this file,
 // You can obtain one at http://mozilla.org/MPL/2.0/.
 
+//go:build !linux && !darwin && !dragonfly && !freebsd && !netbsd && !openbsd && !solaris && !illumos
 // +build !linux,!darwin,!dragonfly,!freebsd,!netbsd,!openbsd,!solaris,!illumos
 
 package mysql
 
-import "net"
+import (
+	"net"
+)
 
 func connCheck(conn net.Conn) error {
 	return nil

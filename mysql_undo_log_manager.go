@@ -4,12 +4,13 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"fmt"
-	"github.com/google/martian/log"
 	"strings"
 	"time"
 )
 
 import (
+	"github.com/google/martian/log"
+
 	"github.com/pkg/errors"
 )
 
