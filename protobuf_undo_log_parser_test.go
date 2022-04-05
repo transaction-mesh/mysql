@@ -10,7 +10,7 @@ import (
 )
 
 import (
-	"github.com/gotrx/mysql/schema"
+	"github.com/transaction-mesh/mysql/schema"
 )
 
 func getBranchUndoLog() *branchUndoLog {

@@ -1,6 +1,8 @@
 package schema
 
-import "github.com/pkg/errors"
+import (
+	"github.com/pkg/errors"
+)
 
 type Row struct {
 	Fields []*Field

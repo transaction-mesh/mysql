@@ -1,9 +1,10 @@
 package mysql
 
-import "strings"
+import (
+	"strings"
+)
 
 // refer to [Types](java.sql.Types)
-
 type SqlDataType int32
 
 const (

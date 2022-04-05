@@ -11,11 +11,14 @@ package mysql
 import (
 	"strings"
 	"time"
+)
 
-	"github.com/gotrx/starfish/pkg/base/meta"
-	"github.com/gotrx/starfish/pkg/client/config"
-	"github.com/gotrx/starfish/pkg/util/log"
+import (
 	"github.com/pkg/errors"
+
+	"github.com/transaction-mesh/starfish/pkg/base/meta"
+	"github.com/transaction-mesh/starfish/pkg/client/config"
+	"github.com/transaction-mesh/starfish/pkg/util/log"
 )
 
 type mysqlTx struct {

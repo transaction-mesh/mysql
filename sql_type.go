@@ -1,6 +1,8 @@
 package mysql
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type SQLType byte
 

@@ -5,12 +5,18 @@ import (
 	"fmt"
 	"reflect"
 	"time"
+)
 
+import (
 	"github.com/golang/protobuf/proto"
-	"github.com/pkg/errors"
-	"vimagination.zapto.org/byteio"
 
-	"github.com/gotrx/mysql/schema"
+	"github.com/pkg/errors"
+
+	"vimagination.zapto.org/byteio"
+)
+
+import (
+	"github.com/transaction-mesh/mysql/schema"
 )
 
 type ProtoBufUndoLogParser struct {

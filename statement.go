@@ -14,11 +14,14 @@ import (
 	"fmt"
 	"io"
 	"reflect"
+)
 
-	"github.com/gotrx/starfish/pkg/client/config"
+import (
 	"github.com/pingcap/parser"
 	"github.com/pingcap/parser/ast"
 	_ "github.com/pingcap/parser/test_driver"
+
+	"github.com/transaction-mesh/starfish/pkg/client/config"
 )
 
 type mysqlStmt struct {
