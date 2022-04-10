@@ -199,9 +199,9 @@ func (manager MysqlUndoLogManager) DeleteUndoLogByLogCreated(conn *mysqlConn, lo
 func toBatchDeleteUndoLogSql(xidSize int, branchIDSize int) string {
 	var sb strings.Builder
 	fmt.Fprint(&sb, "DELETE FROM undo_log WHERE xid in ")
-	fmt.Fprint(&sb, appendInParam(xidSize))
+	fmt.Fprint(&sb, AppendInParam(xidSize))
 	fmt.Fprint(&sb, " AND branch_id in ")
-	fmt.Fprint(&sb, appendInParam(branchIDSize))
+	fmt.Fprint(&sb, AppendInParam(branchIDSize))
 	return sb.String()
 }
 

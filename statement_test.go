@@ -12,7 +12,9 @@ import (
 	"bytes"
 	"database/sql/driver"
 	"encoding/json"
+	"math"
 	"testing"
+	"time"
 )
 
 func TestConvertDerivedString(t *testing.T) {
@@ -147,5 +149,32 @@ func TestConvertJSON(t *testing.T) {
 
 	if _, ok := out.(json.RawMessage); !ok {
 		t.Fatalf("json.RawMessage converted, got %#v %T", out, out)
+	}
+}
+
+func TestExec(t *testing.T) {
+	_, mc := newRWMockConn(1)
+	mc.cfg.User = "root"
+	mc.cfg.Passwd = "123456"
+	mc.cfg.DBName = DBName
+
+	var sourceSQL = "update table_update_executor_test set name = 'WILL' where id = 1;\nupdate table_update_executor_test set name = 'WILL2' where id = 2;"
+
+	mysqlStmt := mysqlStmt{
+		mc:  mc,
+		sql: sourceSQL,
+	}
+	args := []driver.Value{
+		int64(42424242),
+		float64(math.Pi),
+		false,
+		time.Unix(1423411542, 807015000),
+		[]byte("bytes containing special chars ' \" \a \x00"),
+		"string containing special chars ' \" \a \x00",
+	}
+
+	_, err := mysqlStmt.Exec(args)
+	if err != nil {
+		return
 	}
 }
